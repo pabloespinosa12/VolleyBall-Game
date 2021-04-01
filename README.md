@@ -1,2 +1,2 @@
 # VolleyBall-Game
-VolleyBall Game based in Unity and C#
+I am developing a VolleyBall Game based in Unity and C#
