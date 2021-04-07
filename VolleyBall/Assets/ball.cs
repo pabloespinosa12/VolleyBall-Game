@@ -9,6 +9,7 @@ public class ball : MonoBehaviour
     static System.Random r = new System.Random();
     float fuerza = 6f;
     Rigidbody rb;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,15 +25,16 @@ public class ball : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision collision){
-        
+        //print("Altura de la pelota "+transform.position.y); 
         if(collision.gameObject.tag == "Player"){
             z = direccionZ();
-            rb.velocity = new Vector3(0.7f,1f,z) * fuerza;
+            velocidad.setVelocidad(new Vector3(0.7f,1f,z) * fuerza);
+            rb.velocity = velocidad.getVelocidad();
         }else if(collision.gameObject.tag == "Player2"){
             rb.velocity = new Vector3(-0.7f,1f,z*(-1f)) * fuerza ;
         }else{
-            rb.velocity = cero;
-            transform.position=origen;
+            //rb.velocity = cero;
+            //ransform.position=origen;
         }
     }
 
