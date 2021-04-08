@@ -6,7 +6,7 @@ using System;
 public class NPC2 : MonoBehaviour
 {
     GameObject ball;
-    Vector3 velocidadIincial;
+    Vector3 velocidadIincial,dir, impactoEnSuelo;
     bool mover=false;
     Rigidbody rb;
     // Start is called before the first frame update
@@ -14,6 +14,8 @@ public class NPC2 : MonoBehaviour
     {
         
         ball = GameObject.FindWithTag("Ball");
+        dir=new Vector3(0,0,0);
+        impactoEnSuelo=new Vector3(0,0,0);
         rb = GetComponent<Rigidbody>();
     }
 
@@ -21,7 +23,7 @@ public class NPC2 : MonoBehaviour
     void Update()
     {
         //double y0;
-        Vector3 posInicialPelota,dir=new Vector3(0,0,0);
+        Vector3 posInicialPelota;
         int n_frames=0;
         //Obtenemos la velocidad inicial de la pelota en el momento en el que el NPC1 la lanza
         if(velocidad.actualizada){
@@ -31,23 +33,28 @@ public class NPC2 : MonoBehaviour
             //y0=ball.transform.position.y;  Esta perfecta print("Altura de la pelota "+ball.transform.position.y); 
 
             //a=0.5 por aceleracion de la gravedad b = velocidad en eje y de la pelota y c = y0 - altura "0" del campo   
-            float t = (float) ecuacionDeSegundoGrado(0.5*-9.8, velocidadIincial.y, posInicialPelota.y-0.7326368);
+            float t = (float) ecuacionDeSegundoGrado(0.5*-9.8, velocidadIincial.y, posInicialPelota.y-1.5);
             print("tarda en llegar al suelo " + t);
             //Con el tiempo calculo la posicion donde caera: impactoEnSuelo
-            Vector3 impactoEnSuelo = new Vector3(posInicialPelota.x + velocidadIincial.x * t, 0.7326368f,
+            impactoEnSuelo = new Vector3(posInicialPelota.x + velocidadIincial.x * t, 0.7326368f,
             posInicialPelota.z + velocidadIincial.z * t);
 
             //calculo en que direccion debo moverme
             dir = new Vector3(impactoEnSuelo.x-transform.position.x,0,impactoEnSuelo.z-transform.position.z);
             print(impactoEnSuelo);
             n_frames=(int)(t/Time.deltaTime);
-            print("IMPACTO - POS INICIAL NPC2: " + (impactoEnSuelo - transform.position));
-            print("Nos movemos en " + dir);
+            //print("IMPACTO - POS INICIAL NPC2: " + (impactoEnSuelo - transform.position));
+            //print("Nos movemos en " + dir);
             mover=true;
         }
         if(mover){
-            transform.position += dir * 10f * Time.deltaTime;
-            print(transform.position);
+            //print(dir);
+            print("IMPACTO: " + impactoEnSuelo + "   POSITION "+ transform.position);
+            transform.position += dir * 1f * Time.deltaTime;
+            if(destino()){
+                print("Entramos en mover");mover=false;
+            }
+            //print(transform.position);
         } 
         //Calculamos donde caera la pelota
         //Calculamos tiempo t
@@ -69,5 +76,10 @@ public class NPC2 : MonoBehaviour
 			print("1 raiz doble");
             return raizPositiva;
 		}
+    }
+
+    private bool destino(){
+        return Math.Round(impactoEnSuelo.x,2) == Math.Round(transform.position.x,2) &&
+        Math.Round(impactoEnSuelo.z,2) == Math.Round(transform.position.z,2);
     }
 }
