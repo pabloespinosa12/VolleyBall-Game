@@ -4,16 +4,49 @@ using UnityEngine;
 
 public class NPC1 : MonoBehaviour
 {
-    // GameObject ball;
+    GameObject ball;
+    Rigidbody rbBall;
+    float x,z,fuerza = 6f;
+    static System.Random r = new System.Random();
     // // Start is called before the first frame update
-    // void Start()
-    // {
-    //     ball = GameObject.FindWithTag("Ball");
-    // }
+     void Start(){
+        ball = GameObject.FindWithTag("Ball");
+        rbBall = ball.GetComponent<Rigidbody>();
+    }
 
-    // // Update is called once per frame
-    // void Update()
-    // {
-    //     transform.position=new Vector3(transform.position.x,transform.position.y,ball.transform.position.z);
-    // }
+    // Update is called once per frame
+    void Update(){
+
+    }
+
+    void OnCollisionEnter(Collision collision){
+        if(collision.gameObject.tag == "Ball"){
+            z = direccionZ();
+            x = direccionX();
+            Auxiliar.setVelocidad(new Vector3(x,1f,z) * fuerza);
+            rbBall.velocity = Auxiliar.getVelocidad();
+            NPC2.setRecibiendo(true);
+        }
+    }
+
+    //Devuelve la direccion en la que ira la bola en el eje z
+    private float direccionZ(){
+        float res;
+        int rInt = r.Next(0, 100);
+        if(rInt<33)res = 0.2f;
+        else if (rInt<66)res =0f;
+        else res = -0.2f;
+        return res;
+    }
+
+    //Devuelve la direccion en la que ira la bola en el eje z
+    private float direccionX(){
+        float res;
+        int rInt = r.Next(0, 100);
+        if(rInt<33)res = 1f;
+        else if (rInt<66)res =1f;
+        else res = 1.1f;
+        return res;
+    }
+
 }
