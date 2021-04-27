@@ -60,9 +60,9 @@ public class NPC3 : MonoBehaviour
             preparandoPase = true;
         }
         //En 'preparandoPase' comienza la inteligencia de NPC3, en este metodo obtengo los parametros para las ecuaciones del MRUA que
-        // calculare sobre el eje z y el y para obtener la velocidad inicial con la que tengo que mandar la pelota para que le caiga a 
-        // NPC3 en lo alto y remate. Esto es posible porque el NPC2 siempre camina hacia delante y salta entonces siempre tarda el 
-        // mismo tiempo por lo que puedo de las formulas MRUA despejar el vector velocidad en cada eje
+        // aplicaré sobre el eje 'z' y en el 'y' para obtener la velocidad inicial con la que tengo que mandar la pelota para que le caiga a 
+        // NPC2 y remate. Esto es posible porque el NPC2 siempre camina hacia delante y salta entonces siempre tarda el 
+        // mismo tiempo
         if(preparandoPase){
             z0 = posicion.z;
             z = NPC2.getZAtaque();
