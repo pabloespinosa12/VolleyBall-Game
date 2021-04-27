@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ball : MonoBehaviour
+public class Ball : MonoBehaviour
 {
     Vector3 origen,cero;
-    Rigidbody rb;
+    Rigidbody rb,rb2,rb3;
     public Button boton;
+    private static Vector3 velocidadIincial;
+
+   
     // Start is called before the first frame update
     void Start()
     {
@@ -15,24 +18,27 @@ public class ball : MonoBehaviour
         cero = new Vector3(0,0,0);
         rb = GetComponent<Rigidbody>();
         boton.onClick.AddListener(reset);
+        rb2 = GameObject.FindWithTag("Player2").GetComponent<Rigidbody>();
+        rb3 = GameObject.FindWithTag("Player3").GetComponent<Rigidbody>();
     }
     // Update is called once per frame
     void Update()
     {
         
     }
-    void OnCollisionEnter(Collision collision){
-        /*if(collision.gameObject.tag == "Player"){
-            z = direccionZ();
-            x = direccionX();
-            velocidad.setVelocidad(new Vector3(x,1f,z) * fuerza);
-            rb.velocity = velocidad.getVelocidad();
-        }else if(collision.gameObject.tag == "Player2"){
-            rb.velocity = new Vector3(x*(-1),1f,z*(-1f)) * fuerza ;
-        }*/
-    }
+
     void reset(){
         rb.velocity = cero;
         transform.position = origen;
+        rb2.transform.position = new Vector3(4f,rb2.transform.position.y,0f);
+        rb3.transform.position = new Vector3(0.7f,rb3.transform.position.y,0f);
+    }
+
+    //Get y Set de la velocidad de la pelota
+    public static void setVelocidad(Vector3 v){
+        velocidadIincial = v;
+    }
+    public static Vector3 getVelocidad(){
+        return velocidadIincial;
     }
 }

@@ -8,6 +8,7 @@ public class NPC1 : MonoBehaviour
     Rigidbody rbBall;
     float x,z,fuerza = 6f;
     static System.Random r = new System.Random();
+
     // // Start is called before the first frame update
      void Start(){
         ball = GameObject.FindWithTag("Ball");
@@ -18,13 +19,15 @@ public class NPC1 : MonoBehaviour
     void Update(){
 
     }
-
+    
+    //Cuando la pelota choca con el NPC1 este calcula con numeros aleatorios a donde lanzarla. He hecho que haya 9 lugares posibles
+    // a donde lanzar ya que deben estar dentro de un determinado rango para que caiga en el campo contrario
     void OnCollisionEnter(Collision collision){
         if(collision.gameObject.tag == "Ball"){
             z = direccionZ();
             x = direccionX();
-            Auxiliar.setVelocidad(new Vector3(x,1f,z) * fuerza);
-            rbBall.velocity = Auxiliar.getVelocidad();
+            Ball.setVelocidad(new Vector3(x,1f,z) * fuerza);
+            rbBall.velocity = Ball.getVelocidad();
             NPC2.setRecibiendo(true);
         }
     }
@@ -43,8 +46,7 @@ public class NPC1 : MonoBehaviour
     private float direccionX(){
         float res;
         int rInt = r.Next(0, 100);
-        if(rInt<33)res = 1f;
-        else if (rInt<66)res =1f;
+        if(rInt<50)res = 0.7f;
         else res = 1.1f;
         return res;
     }
